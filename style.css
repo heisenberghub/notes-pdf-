@@ -426,6 +426,23 @@ p, span { font-size: 0.95rem; }
 .notes-grid:not(:empty) .note-card:nth-child(3) { animation-delay: 0.15s; }
 .notes-grid:not(:empty) .note-card:nth-child(4) { animation-delay: 0.2s; }
 
+/* Animation and State Classes */
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.spin-anim {
+    animation: spin 1s linear infinite;
+}
+
+.btn-success {
+    background: #10b981 !important;
+    color: white;
+    border-color: #10b981 !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4) !important;
+    pointer-events: none; /* prevent click while showing success */
+}
+
 /* Responsive Adjustments for Mobile */
 @media (max-width: 900px) {
     .dashboard-grid {
