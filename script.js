@@ -16,8 +16,6 @@ let searchInput;
 let currentUser = null;
 let authBtn;
 let authBtnText;
-let authBtnFooter;
-let authBtnFooterText;
 
 const provider = new GoogleAuthProvider();
 
@@ -27,13 +25,6 @@ function updateAuthButton() {
             authBtnText.innerText = "Logout";
         } else {
             authBtnText.innerText = "Admin Login";
-        }
-    }
-    if (authBtnFooterText) {
-        if (currentUser) {
-            authBtnFooterText.innerText = "Logout";
-        } else {
-            authBtnFooterText.innerText = "Admin";
         }
     }
 }
@@ -75,14 +66,12 @@ const CLOUDINARY_API_SECRET = "r9Z6TVPpvCrUBIh47OG4zYyueeI"; // Needed for Destr
 // 🚀 LOAD NOTES FROM FIREBASE
 // =======================================
 async function loadNotes() {
-    notes = [];
-
     const querySnapshot = await getDocs(collection(db, "notes"));
 
+    const fetchedNotes = [];
     querySnapshot.forEach((doc) => {
         const data = doc.data();
-
-        notes.push({
+        fetchedNotes.push({
             id: doc.id,
             title: data.title,
             url: data.url,
@@ -91,6 +80,7 @@ async function loadNotes() {
         });
     });
 
+    notes = fetchedNotes;
     displayNotes(notes);
 }
 
@@ -304,20 +294,12 @@ document.addEventListener("DOMContentLoaded", () => {
     searchInput = document.getElementById("searchInput");
     authBtn = document.getElementById("authBtn");
     authBtnText = document.getElementById("authBtnText");
-    authBtnFooter = document.getElementById("authBtnFooter");
-    authBtnFooterText = document.getElementById("authBtnFooterText");
 
     updateAuthButton(); // sync state in case auth loaded before DOM
 
     if (authBtn) {
         authBtn.addEventListener("click", handleAuth);
     }
-    if (authBtnFooter) {
-        authBtnFooter.addEventListener("click", handleAuth);
-    }
-
-    // Load notes
-    loadNotes();
 
     // Search listener
     searchInput.addEventListener("input", searchNotes);
